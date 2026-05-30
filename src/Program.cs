@@ -1,9 +1,10 @@
-﻿using CDB_Calculator;
+﻿using CdbCalculator;
 
-var menu = new MenuHandler();
+MenuHandler menu = new();
+InvestmentCalculator investment = new();
+DynamicRates rates = new();
+Vault vault = menu.CreateVaultData();
 
-var vault = menu.CreateVaultData();
+decimal monthlyDeposit = menu.AskMonthlyApply();
 
-decimal monthlyApply = menu.AskMonthlyApply();
-
-menu.RunSimulation(vault, monthlyApply);
+menu.RunSimulation(vault, rates, monthlyDeposit);
