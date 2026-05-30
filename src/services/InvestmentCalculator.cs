@@ -1,9 +1,9 @@
-﻿namespace CDB_Calculator;
+﻿namespace CdbCalculator;
 
 public class InvestmentCalculator
 {
-    public decimal ApplyInterest(decimal balance, decimal rate, decimal monthlyApply = 0)
+    public decimal ApplyInterest(decimal balance, decimal rate, decimal monthlyDeposit = 0)
     {
-        return (balance + monthlyApply) * (1 + rate);
+        return (balance + monthlyDeposit) * (1 + rate);
     }
 }
