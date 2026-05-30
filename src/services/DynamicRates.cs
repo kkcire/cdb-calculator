@@ -17,7 +17,7 @@ public class DynamicRates
         decimal distanceToMax = MaxRate - CurrentRate;
         decimal distanceToMin = CurrentRate - MinRate;
         
-        decimal adjustment = (Math.Abs(distanceToMin) - Math.Abs(distanceToMax));
+        decimal adjustment = (Math.Abs(distanceToMin) - Math.Abs(distanceToMax)) * Magnitude;
 
         int deltaMin = (int)(-10 - (adjustment * Magnitude));
         int deltaMax = (int)(10 - (adjustment * Magnitude));
@@ -25,7 +25,7 @@ public class DynamicRates
         int trend = _random.Next(deltaMin, deltaMax + 1);
 
         CurrentRate += trend / PercentDivisor;
-
-        return Math.Clamp(CurrentRate, MinRate, MaxRate);
+        CurrentRate = Math.Clamp(CurrentRate, MinRate, MaxRate);
+        return CurrentRate;
     }
 }
