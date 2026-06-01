@@ -5,14 +5,14 @@ public class MenuHandler
     public Vault CreateVaultData()
     {
 
-        Clear();
+        //Clear();
 
         WriteLine("=== Create your Vault ===\n");
 
         WriteLine("What's the objective of yout Vault? ");
         string name = ReadLine() ?? "Geral";
 
-        Clear();
+        //Clear();
 
         decimal principal;
 
@@ -26,7 +26,7 @@ public class MenuHandler
             Clear();
         }
 
-        Clear();
+        //Clear();
 
         int months;
         while (true)
@@ -39,7 +39,7 @@ public class MenuHandler
             Clear();
         }
 
-        Clear();
+        //Clear();
 
         return new Vault
         {
@@ -58,7 +58,7 @@ public class MenuHandler
             WriteLine("How much do you want to deposite every month?");
             string input = ReadLine() ?? "";
 
-            Clear();
+            //Clear();
 
             if (decimal.TryParse(input, out amount) && amount >= 0) return amount;
 
@@ -67,25 +67,23 @@ public class MenuHandler
         }
     }
 
-    public void RunSimulation(Vault vaultData, DynamicRates rate, decimal monthlyAmount)
+    public void RunSimulation(Vault vault, DynamicRates rate, decimal monthlyAmount)
     {
-        decimal currentBalance = vaultData.Principal;
-        decimal currentRate = rate.CurrentRate;
-
-        currentRate = rate.UpdateRate();
+        decimal currentBalance = vault.Principal;
 
         InvestmentCalculator investmentCalculator = new();
 
-        for (ushort currentMonth = 1; currentMonth <= vaultData.Months; currentMonth++)
+        for (ushort currentMonth = 1; currentMonth <= vault.Months; currentMonth++)
         {
-            decimal monthlyApply = monthlyAmount;
+            decimal currentRate = rate.UpdateRate();
+            decimal monthlyDeposit = monthlyAmount;
 
             if (currentMonth == 1)
             {
-                monthlyApply = 0;
+                monthlyDeposit = 0;
             }
 
-            currentBalance = investmentCalculator.ApplyInterest(currentBalance, currentRate, monthlyApply);
+            currentBalance = investmentCalculator.ApplyInterest(currentBalance, currentRate, monthlyDeposit);
             WriteLine($"Month {currentMonth}: {currentBalance:C}");
         }
     }
