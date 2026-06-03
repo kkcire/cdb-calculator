@@ -1,10 +1,16 @@
 ﻿using CdbCalculator;
 
-MenuHandler menu = new();
-InvestmentCalculator investment = new();
-DynamicRates rates = new();
-Vault vault = menu.CreateVaultData();
+ConsoleView menu = new();
+DynamicRates rate = new();
+Investment vault = menu.CreateVaultData();
 
-decimal monthlyDeposit = menu.AskMonthlyApply();
+int simulationMode = menu.GetSimulationMode();
 
-menu.RunSimulation(vault, rates, monthlyDeposit);
+if (simulationMode == 1)
+{
+    menu.RunInteractiveSimulation(vault, rate);
+}
+else
+{
+    menu.RunDirectSimulation(vault, rate);
+}
