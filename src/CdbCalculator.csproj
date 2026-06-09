@@ -3,14 +3,11 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>CDB_Calculator</RootNamespace>
+    <RootNamespace>CdbCalculator</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <Using Remove="System.Threading" />
-    <Using Include="System.Numerics" />
     <Using Include="System.Console" Static="true" />
-    <Using Include="System.Environment" Alias="Env" />
   </ItemGroup>
 </Project>
