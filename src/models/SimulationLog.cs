@@ -1,6 +1,6 @@
 ﻿namespace CdbCalculator;
 
-public class SimulationLog
+public record SimulationLog
 {
     public required string InvestmentName { get; init; }
     public required decimal InitialPrincipal { get; init; }

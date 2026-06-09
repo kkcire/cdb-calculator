@@ -42,7 +42,7 @@ public class SimulationService
         };
     }
 
-    public SimulationLog RunInteractive(Investment vault, DynamicRates marketRate, Func<decimal> getMonthlyDeposit, Func<int> getInteractiveOption, Action<MonthlyEntry> displayProgress)
+    public SimulationLog RunInteractive(Investment vault, DynamicRates marketRate, Func<decimal> getMonthlyDeposit, Func<MonthlyEntry, int> getInteractiveOption)
     {
         List<MonthlyEntry> entries = new();
         decimal balance = vault.Principal;
@@ -68,15 +68,9 @@ public class SimulationService
             entries.Add(currentEntry);
             balance = newBalance;
 
-            displayProgress(currentEntry);
+            if (month == vault.Months) break;
 
-            if (month == vault.Months)
-            {
-                month++;
-                break;
-            }
-
-            int mode = getInteractiveOption();
+            int mode = getInteractiveOption(currentEntry);
 
             month++;
 

@@ -48,7 +48,7 @@ public class ConsoleView
 
             WriteLine("> How much do you want to deposit initially? ");
 
-            if (decimal.TryParse(ReadLine(), out principal) && principal >= 0) break;
+            if (decimal.TryParse(ReadLine(), out principal) && principal > 0) break;
 
             Clear();
             ForegroundColor = ConsoleColor.Red;
@@ -70,7 +70,7 @@ public class ConsoleView
 
             WriteLine("> For how many months do you want to invest? ");
 
-            if (int.TryParse(ReadLine(), out months) && months >= 0) break;
+            if (int.TryParse(ReadLine(), out months) && months > 0) break;
 
             Clear();
             ForegroundColor = ConsoleColor.Red;
@@ -153,11 +153,11 @@ public class ConsoleView
             Clear();
         }
     }
-    public int GetInteractiveOption()
+    public int GetInteractiveOption(MonthlyEntry entry)
     {
         while (true)
         {
-
+            DisplayProgress(entry);
 
             ForegroundColor = ConsoleColor.DarkGreen;
             WriteLine("> How do you want to proceed?\n");
@@ -190,6 +190,48 @@ public class ConsoleView
             ReadKey();
             Clear();
         }
+    }
+
+    public void DisplayFinalReport(SimulationLog log)
+    {
+        Clear();
+        ForegroundColor = ConsoleColor.DarkGreen;
+        WriteLine("==================================================");
+        WriteLine("||            FINAL SIMULATION REPORT           ||");
+        WriteLine("==================================================");
+        ResetColor();
+
+        WriteLine($"\nVault Name:        {log.InvestmentName}");
+        WriteLine($"Initial Principal: {log.InitialPrincipal:C}");
+        WriteLine($"Total Duration:    {log.History.Count} Month(s)");
+        WriteLine(new string('-', 50));
+
+        ForegroundColor = ConsoleColor.Gray;
+        WriteLine($"{"Month",-6} | {"Rate (%)",-10} | {"Profit",-12} | {"Balance",-14}");
+        WriteLine(new string('-', 50));
+        ResetColor();
+
+        foreach (var entry in log.History)
+        {
+            WriteLine($"{entry.Month,-6} | {entry.Rate,-10:P3} | {entry.Profit,-12:C} | {entry.Balance,-14:C}");
+        }
+
+        WriteLine(new string('-', 50));
+
+        if (log.History.Count > 0)
+        {
+            decimal finalBalance = log.History[^1].Balance;
+
+            ForegroundColor = ConsoleColor.Green;
+            WriteLine($"Final Accumulated Wealth: {finalBalance:C}");
+            ResetColor();
+        }
+
+        ForegroundColor = ConsoleColor.DarkGray;
+        WriteLine("\nPress any key to close the simulator...");
+        ResetColor();
+        ReadKey();
+        Clear();
     }
 
     public void DisplayProgress(MonthlyEntry entry)
