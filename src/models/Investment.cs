@@ -1,6 +1,6 @@
 ﻿namespace CdbCalculator;
 
-public record Vault
+public record Investment
 {
     public required decimal Principal { get; init; }
     public required int Months { get; init; }
