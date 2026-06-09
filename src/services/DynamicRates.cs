@@ -12,15 +12,15 @@ public class DynamicRates
 
     public decimal CurrentRate { get; private set; } = InitialRate;
 
-    public decimal UpdateRate()
+    public decimal Update()
     {
         decimal distanceToMax = MaxRate - CurrentRate;
         decimal distanceToMin = CurrentRate - MinRate;
         
         decimal adjustment = (Math.Abs(distanceToMin) - Math.Abs(distanceToMax)) * Magnitude;
 
-        int deltaMin = (int)(-10 - (adjustment * Magnitude));
-        int deltaMax = (int)(10 - (adjustment * Magnitude));
+        int deltaMin = (int)Math.Floor(-10 - (adjustment * Magnitude));
+        int deltaMax = (int)Math.Floor(10 - (adjustment * Magnitude));
 
         int trend = _random.Next(deltaMin, deltaMax + 1);
 
