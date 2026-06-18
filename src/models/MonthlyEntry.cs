@@ -6,4 +6,6 @@ public record MonthlyEntry
     public required decimal Balance { get; init; }
     public required decimal Profit { get; init; }
     public required decimal Rate { get; init; }
+
+    public required decimal Deposit { get; init; }
 }

@@ -204,26 +204,27 @@ public class ConsoleView
         WriteLine($"\nVault Name:        {log.InvestmentName}");
         WriteLine($"Initial Principal: {log.InitialPrincipal:C}");
         WriteLine($"Total Duration:    {log.History.Count} Month(s)");
-        WriteLine(new string('-', 50));
+        WriteLine(new string('-', 65));
 
         ForegroundColor = ConsoleColor.Gray;
-        WriteLine($"{"Month",-6} | {"Rate (%)",-10} | {"Profit",-12} | {"Balance",-14}");
-        WriteLine(new string('-', 50));
+        WriteLine($"{"Month",-6} | {"Rate (%)",-10} | {"Profit",-12} | {"Balance",-14} | {"Month Deposit", -10}");
+        WriteLine(new string('-', 65));
         ResetColor();
 
         foreach (var entry in log.History)
         {
-            WriteLine($"{entry.Month,-6} | {entry.Rate,-10:P3} | {entry.Profit,-12:C} | {entry.Balance,-14:C}");
+            WriteLine($"{entry.Month,-6} | {entry.Rate,-10:P3} | {entry.Profit,-12:C} | {entry.Balance,-14:C} | + {entry.Deposit, -10:C}");
         }
 
-        WriteLine(new string('-', 50));
+        WriteLine(new string('-', 65));
 
         if (log.History.Count > 0)
         {
             decimal finalBalance = log.History[^1].Balance;
+            decimal totalProfit = log.History.Sum(item => item.Profit);
 
             ForegroundColor = ConsoleColor.Green;
-            WriteLine($"Final Accumulated Wealth: {finalBalance:C}");
+            WriteLine($"Final Balance: {finalBalance, -10:C} | Total Profit: {totalProfit,-12:C}");
             ResetColor();
         }
 

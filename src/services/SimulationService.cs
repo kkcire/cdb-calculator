@@ -28,7 +28,8 @@ public class SimulationService
                 Month = month,
                 Balance = newBalance,
                 Profit = profit,
-                Rate = rate
+                Rate = rate,
+                Deposit = deposit
             });
 
             balance = newBalance;
@@ -62,7 +63,8 @@ public class SimulationService
                 Month = month,
                 Balance = newBalance,
                 Profit = profit,
-                Rate = rate
+                Rate = rate,
+                Deposit = monthlyDeposit
             };
 
             entries.Add(currentEntry);
@@ -110,7 +112,8 @@ public class SimulationService
                 Month = month,
                 Balance = newBalance,
                 Profit = profit,
-                Rate = rate
+                Rate = rate,
+                Deposit = 0
             });
 
             balance = newBalance;
