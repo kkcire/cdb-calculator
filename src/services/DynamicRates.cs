@@ -4,7 +4,7 @@ public class DynamicRates
 {
     private const decimal MinRate = 0.0080m;
     private const decimal MaxRate = 0.0090m;
-    private const int Magnitude = 10;
+    private const int Magnitude = 3000;
     private const decimal InitialRate = 0.0085m;
     private const decimal PercentDivisor = 100000m;
 
@@ -16,11 +16,14 @@ public class DynamicRates
     {
         decimal distanceToMax = MaxRate - CurrentRate;
         decimal distanceToMin = CurrentRate - MinRate;
-        
-        decimal adjustment = (Math.Abs(distanceToMin) - Math.Abs(distanceToMax)) * Magnitude;
 
-        int deltaMin = (int)Math.Floor(-10 - (adjustment * Magnitude));
-        int deltaMax = (int)Math.Floor(10 - (adjustment * Magnitude));
+        decimal adjustment = distanceToMin - distanceToMax;
+
+        decimal min = (-10 - (adjustment * Magnitude));
+        decimal max = (10 - (adjustment * Magnitude));
+
+        int deltaMin = (int)Math.Round(min, MidpointRounding.AwayFromZero);
+        int deltaMax = (int)Math.Round(max, MidpointRounding.AwayFromZero);
 
         int trend = _random.Next(deltaMin, deltaMax + 1);
 
