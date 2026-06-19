@@ -1,13 +1,8 @@
 ﻿namespace CdbCalculator;
 
-public class SimulationService
+public class SimulationService(InvestmentCalculator calculator)
 {
-    private readonly InvestmentCalculator _calculator;
-
-    public SimulationService(InvestmentCalculator calculator)
-    {
-        _calculator = calculator;
-    }
+    private readonly InvestmentCalculator _calculator = calculator;
 
     public SimulationLog RunDirect(Investment vault, DynamicRates marketRate, decimal monthlyDeposit)
     {
