@@ -1,58 +1,83 @@
 # CDB Investment Calculator
 
-A console application built with C# and .NET 8 that simulates CDB (Certificado de Depósito Bancário) investment growth over time, featuring both direct and interactive simulation modes with a dynamic market interest rate model.
+A console application built with C# and .NET 8 that simulates CDB (Certificado de Depósito Bancário) investment growth over time, including monthly deposits and a dynamically changing interest rate.
 
-## Overview
+## About
 
-This project simulates how a fixed-income investment grows month by month, including monthly deposits and a fluctuating interest rate through a custom mathematical algorithm. Users can run the simulation under two distinct modes:
+This project was created as a practical study project to apply C# and .NET concepts beyond.
 
-* **Direct Mode:** An automated execution flow that processes the entire duration and displays the final report instantly.
-* **Interactive Mode:** A step-by-step loop where the user controls the progression month by month, deciding the recurring deposit amount in real-time, with options to skip to the end or exit early.
+The application simulates the month-by-month growth of a fixed-income investment, including compound interest, recurring deposits, and changes in the interest rate.
 
-It was built as a learning project to apply object-oriented design, strict separation of concerns, and clean architecture principles within a practical financial context.
+It supports two simulation modes:
 
-## Architecture
+* **Direct Mode:** Runs the complete simulation automatically and displays the final report.
+* **Interactive Mode:** Allows the user to progress through the simulation month by month, deciding the recurring deposit amount during execution, with options to skip to the end or exit early.
 
-The project follows a layered structure to keep business logic decoupled from the console interface:
+One of the main challenges of the project was designing a mathematical model for a changing interest rate rather than using a fixed value.
 
-```
+## Features
+
+* CDB investment simulation
+* Compound interest calculation
+* Monthly deposits
+* Dynamic interest rate simulation
+* Custom mathematical algorithm for rate fluctuations
+* Direct and interactive simulation modes
+* Detailed simulation history and final report
+
+## Tech Stack
+
+* C# 12
+* .NET 8
+
+## Structure
+
+```text
 src/
-├── Program.cs                  # Entry point and application flow
+├── Program.cs
 ├── models/
-│   ├── Investment.cs           # Represents the initial investment configuration
-│   ├── MonthlyEntry.cs         # Represents a single month's result
-│   └── SimulationLog.cs        # Represents the full simulation history
+│   ├── Investment.cs
+│   ├── MonthlyEntry.cs
+│   └── SimulationLog.cs
 ├── services/
-│   ├── DynamicRates.cs         # Simulates fluctuating market interest rates
-│   ├── InvestmentCalculator.cs # Applies compound interest and deposit calculations
-│   └── SimulationService.cs    # Orchestrates the month-by-month simulation
+│   ├── DynamicRates.cs
+│   ├── InvestmentCalculator.cs
+│   └── SimulationService.cs
 └── ui/
-    └── ConsoleView.cs          # Handles all console input/output
+    └── ConsoleView.cs
 ```
 
----
+## Dynamic Rate Algorithm
 
-### Dynamic Rate Algorithm
+Instead of using a fixed interest rate, `DynamicRates.cs` generates a new rate for each month using a custom mathematical algorithm.
 
-Instead of a static interest rate, `DynamicRates.cs` generates a new rate each month using a custom boundary-biased algorithm. The core idea: the closer the rate gets to either limit, the stronger the push back toward the center.
-
-The adjustment range is calculated as follows:
+The main idea is to make the rate increasingly influenced toward the opposite direction as it approaches either defined limit. This creates controlled fluctuations while keeping the value within the desired range.
 
 <img src="docs/formula.jpeg" width="450"/>
 
-Where `B_m` and `B_M` define the lower and upper bounds of a random integer draw. The resulting `trend` value is then scaled and added to the current rate, which is finally clamped within `[m, M]` to prevent boundary violations.
+The formula was developed from mathematical reasoning and experimentation before being implemented in code. No external library or existing implementation was used for the algorithm.
 
-The further the rate drifts toward one boundary, the more the random range shifts in the opposite direction — creating a self-correcting fluctuation without any fixed pattern.
+The resulting behavior produces a self-correcting fluctuation rather than a completely unrestricted random movement.
 
-## How to Run
+## What I Learned
 
-```bash
-git clone https://github.com/kkcire/cdb-calculator.git
-cd cdb-calculator/src
-dotnet run
-```
+This project was an opportunity to apply concepts studied in C# to a complete application.
 
-**Requirements:** .NET 8 SDK
+### C# and Object-Oriented Programming
+
+* Encapsulation and abstraction
+* Object composition
+* Records
+* `required` and `init` properties
+* Primary constructors
+* Delegates and `Func<T>`
+
+### Software Design
+
+* Separation of responsibilities
+* Keeping simulation logic independent from console I/O
+* Dependency injection through delegates
+* Organizing classes around their responsibilities
 
 ## Example Output
 
@@ -76,28 +101,24 @@ Month  | Rate (%)   | Profit       | Balance        | Month Deposit
 Final Balance: R$ 3.419,83 | Total Profit: R$ 219,83
 ```
 
-## What I Learned
+## Getting Started
 
-* **Inversion of Control (IoC)** — `SimulationService` receives user input methods as `Func<T>` delegates, keeping business logic completely independent from the console layer. The service has no direct dependency on `Console`.
-* **Object-Oriented Programming** — Applied encapsulation, abstraction, and aggregation throughout. Each class has a single, well-defined responsibility with no cross-layer leakage.
-* **Immutability by Design** — Models (`Investment`, `MonthlyEntry`, `SimulationLog`) are implemented as `records` with `required` and `init` properties, ensuring data integrity after creation.
-* **SOLID — Single Responsibility Principle** — Every class does exactly one thing: `InvestmentCalculator` calculates, `DynamicRates` generates rates, `ConsoleView` handles I/O, `SimulationService` orchestrates. None of them overlap.
-* **Modern C# 12 Syntax** — Primary constructors, `record` types, target-typed `new()`, and `Math.Clamp()` used throughout.
-* **Custom Algorithm Design** — The dynamic rate formula was derived from first principles on paper before implementation. No external library or reference — pure analytical reasoning to produce a self-correcting fluctuation algorithm.
+### Requirements
 
-## Roadmap
+* .NET 8 SDK or later
 
-- [x] Sum of profits displayed in the final report
-- [x] Monthly deposit visible per row in the final report
-- [ ] Unit tests with xUnit for `InvestmentCalculator` and `DynamicRates`
-- [ ] XML documentation comments
-- [ ] Extract repeated console formatting logic into reusable helper methods
+### Clone the repository
 
-## Tech Stack
+```bash
+git clone https://github.com/kkcire/cdb-calculator.git
+cd cdb-calculator
+```
 
-- C# 12
-- .NET 8
-- Console Application
+### Run
+
+```bash
+dotnet run --project src
+```
 
 ---
 
