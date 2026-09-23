@@ -65,8 +65,8 @@ This project was an opportunity to apply concepts studied in C# to a complete ap
 
 ### C# and Object-Oriented Programming
 
+* Classes and objects
 * Encapsulation and abstraction
-* Object composition
 * Records
 * `required` and `init` properties
 * Primary constructors
